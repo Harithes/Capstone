@@ -6,7 +6,7 @@
         <p>First name: </p><input type=text name="fname" maxlength="50" required>
         <p>Last name: </p><input type=text name="lname" maxlength="50" required>
         <p>Password: </p><input type=password name="pw" maxlength="50"required>
-        <p>Class Id: </p><input type=number name="classId" required>
+        <p>Make Class Id: </p><input type=number name="classId" required>
         <input type=hidden name="hidden" value=true>
         <input type=submit value="GO!">
     </form>
@@ -22,7 +22,7 @@
 
         try
         {
-            $select = $db->prepare("SELECT email from students where email like '$newEmail'");
+            $select = $db->prepare("SELECT email from profs where email like '$newEmail'");
             $select->execute();
             if($select->rowCount() > 0)
             {
@@ -38,8 +38,7 @@
                     $mod1Sub = 0;
                     $mod1Response = "";
 
-                    $db->exec("INSERT INTO students (email, fName, lName, hashWord, mod1Sub, mod1Response, classId) VALUES ('$newEmail', '$fName', '$lName', '$hashPw',
-                    $mod1Sub, '$mod1Response', '$newId');");
+                    $db->exec("INSERT INTO profs (email, fName, lName, hashWord, classId) VALUES ('$newEmail', '$fName', '$lName', '$hashPw', '$newId');");
                     $db->commit();
                     header('Location: login.php');
                 }

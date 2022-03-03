@@ -6,9 +6,10 @@
         <p>Password: </p><input type=password name="loginPw" maxlength="50"required>
         <input type=submit value="GO!">
     </form>
-    <a href="newUser.php">Create a new user</a> <a href="forgotPassword">Forgot password?</a>
+    <a href="newUser.php">Create a new user</a> <a href="forgotPassword">Forgot password?</a> <a href="createProf.php">Create new professor</a>
 </html>
 <?php
+
     if(isset($_POST['loginEm'])){
         $attemptEm = $_POST['loginEm'];
         $attemptPw = $_POST['loginPw'];
@@ -24,6 +25,7 @@
                 if(password_verify($attemptPw, $realPass) == true){
                     $_SESSION['user_login'] = true;
                     $_SESSION['email'] = $attemptEm;
+                    $_SESSION['id'] = "{$row['userId']}";
                     $_SESSION['fName'] = "{$row['fName']}";
                     $_SESSION['lName'] = "{$row['lName']}";
                     $_SESSION['classId'] = "{$row['classId']}";

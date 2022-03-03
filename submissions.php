@@ -1,12 +1,12 @@
 <?php
 include("index.php");
 $classId = $_SESSION['classId'];
-//if(isset($_POST['response1Submit'])){
-    $statement = "SELECT * from students where mod1Sub = 1 AND classId = $classId";
+$statement = "SELECT * from students where mod1Sub = 1 AND classId = $classId";
     $results = $db->query($statement);
     if($results == false){
         echo "Something broke!";
     }else{
+        echo"<style>table,th,td{border: 1px solid black}</style>";
         echo"<table>";
         echo"<tr>
         <td>Student Email:</td>
@@ -28,12 +28,4 @@ $classId = $_SESSION['classId'];
         }
         echo"</table>";
     }
-//}
-
-if(isset($_POST['response2Submit'])){
-    $response2 = $_POST['response2'];
-}else{
-    $response2 = "";
-}
-
 ?>

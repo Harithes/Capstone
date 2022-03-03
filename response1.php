@@ -1,7 +1,7 @@
 <?php include('index.php'); ?>
 <html>
 
-<form action='submissions.php' method = "POST">
+<form method = "POST">
     Response Goes here
     <br>
     <input type="text" name="response1" required></input>
@@ -11,13 +11,15 @@
 <?php
     if(isset($_POST['response1Submit'])){
         $answer = $_POST['response1'];
-        $lname = $_SESSION['lName'];
+        $uId = $_SESSION['id'];
+        $sub = 1;
+        echo$uId . "<br>";
         try{
-            $update = "UPDATE students SET mod1Sub = 1, mod1Response = $answer WHERE lName = '$lname'";
+            $update = "UPDATE students SET mod1Sub = $sub, mod1Response = '$answer' WHERE userId = $uId";
             $stmt = $db->prepare($update);
             $stmt->execute();
-            $stmt->rowCount() . " records UPDATED successfully!";
-            //header('Location: submissions.php');
+            //echo $stmt->rowCount() . " records UPDATED successfully!";
+            header('Location: submissions.php');
         }catch(PDOException $e) {
             echo $sql . "<br>" . $e->getMessage();
         }

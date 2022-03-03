@@ -1,6 +1,5 @@
 <?php
 include("index.php");
-
 ?>
 
 <style>
