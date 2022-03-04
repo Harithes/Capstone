@@ -1,4 +1,8 @@
-<?php include("index.php");?>
+<?php include("index.php");
+$classID = $db->prepare("SELECT classId from profs");
+$classID->execute();
+
+?>
 <html>
     <h2>Create User:</h2>
     <form method="POST">
@@ -6,7 +10,14 @@
         <p>First name: </p><input type=text name="fname" maxlength="50" required>
         <p>Last name: </p><input type=text name="lname" maxlength="50" required>
         <p>Password: </p><input type=password name="pw" maxlength="50"required>
-        <p>Class Id: </p><input type=number name="classId" required>
+        <?php 
+        echo "<p>Class Id: </p><select id='classId' name='classId' required/>
+        <datalist id='classId' >";
+        foreach($classID as $ID){
+            echo "<option value=".$ID["classId"].">".$ID["classId"]."</option>";
+        } 
+        echo "</select>";
+        ?>
         <input type=hidden name="hidden" value=true>
         <input type=submit value="GO!">
     </form>
@@ -35,13 +46,15 @@
                     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     $db->beginTransaction();
                     $hashPw = password_hash($newPw, PASSWORD_BCRYPT);
-                    $mod1Sub = 0;
-                    $mod1Response = "";
 
-                    $db->exec("INSERT INTO students (email, fName, lName, hashWord, mod1Sub, mod1Response, classId) VALUES ('$newEmail', '$fName', '$lName', '$hashPw',
-                    $mod1Sub, '$mod1Response', '$newId');");
+                    $db->exec("INSERT INTO students (email, fName, lName, hashWord, classId) VALUES ('$newEmail', '$fName', '$lName', '$hashPw', '$newId');");
                     $db->commit();
-                    header('Location: login.php');
+                    $_SESSION['user_login'] = true;
+                    $_SESSION['email'] = $attemptEm;
+                    $_SESSION['fName'] = "{$row['fName']}";
+                    $_SESSION['lName'] = "{$row['lName']}";
+                    $_SESSION['classId'] = "{$row['classId']}";
+                    header('Location: modules.php');
                 }
                 catch(PDOException $e)
                 {
