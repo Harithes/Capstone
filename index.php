@@ -27,7 +27,8 @@
     }
     if(!isset($_SESSION['user_login']))
     {
-        echo"Please login";
+        echo "<a href=login.php>LOGIN</a>";
+        echo"<br>Please login";
     }else{
         echo "Welcome " . $_SESSION['fName'] . " " . $_SESSION['lName'] . "!";
         echo "<a href=modules.php>HOME</a> <a href=logout.php>LOGOUT</a> <a href=scoreBoard.php> LEADERBOARD</a>";
