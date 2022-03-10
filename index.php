@@ -5,10 +5,19 @@
     session_start();
     $db = 'heroku_ea376caa8695210';
     //$db = 'capstonestudents';
-    $host = 'localhost';
-    $dsn = "mysql:host=localhost;dbname=capstonestudents";
-    $un = "student";
-    $pw = "testPW";
+    
+    $host = "us-cdbr-east-05.cleardb.net";
+    //$host = 'localhost';
+
+    $dsn = "mysql:host=us-cdbr-east-05.cleardb.net;dbname=heroku_ea376caa8695210";
+    //$dsn = "mysql:host=localhost;dbname=capstonestudents";
+
+    $un = "b36d9559844521";
+    //$un = "student";
+
+    $pw = "7383d077";
+    //$pw = "testPW";
+
     try
     {
         $db = new PDO($dsn, $un, $pw);
