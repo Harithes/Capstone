@@ -49,12 +49,7 @@ $classID->execute();
 
                     $db->exec("INSERT INTO students (email, fName, lName, hashWord, classId) VALUES ('$newEmail', '$fName', '$lName', '$hashPw', '$newId');");
                     $db->commit();
-                    $_SESSION['user_login'] = true;
-                    $_SESSION['email'] = $attemptEm;
-                    $_SESSION['fName'] = "{$row['fName']}";
-                    $_SESSION['lName'] = "{$row['lName']}";
-                    $_SESSION['classId'] = "{$row['classId']}";
-                    header('Location: modules.php');
+                    header('Location: login.php');
                 }
                 catch(PDOException $e)
                 {

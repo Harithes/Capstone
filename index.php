@@ -1,23 +1,12 @@
 <html>
     <body>
 <?php
-    #require 'config.php';
     session_start();
-    $db = 'heroku_ea376caa8695210';
-    //$db = 'capstonestudents';
-    
-    $host = "us-cdbr-east-05.cleardb.net";
-    //$host = 'localhost';
-
-    $dsn = "mysql:host=us-cdbr-east-05.cleardb.net;dbname=heroku_ea376caa8695210";
-    //$dsn = "mysql:host=localhost;dbname=capstonestudents";
-
-    $un = "b36d9559844521";
-    //$un = "student";
-
-    $pw = "7383d077";
-    //$pw = "testPW";
-
+    $db = 'capstonestudents';
+    $host = 'localhost';
+    $dsn = "mysql:host=localhost;dbname=capstonestudents";
+    $un = "student";
+    $pw = "testPW";
     try
     {
         $db = new PDO($dsn, $un, $pw);
@@ -25,25 +14,14 @@
     {
         echo "could not connect to database";
     }
-    if(!isset($_SESSION['user_login']))
+    if((!isset($_SESSION['user_login'])) && (!isset($_SESSION['prof_login'])))
     {
-        echo "<a href=login.php>LOGIN</a>";
-        echo"<br>Please login";
-    }else{
-        echo "Welcome " . $_SESSION['fName'] . " " . $_SESSION['lName'] . "!";
-        echo "<a href=modules.php>HOME</a> <a href=logout.php>LOGOUT</a> <a href=scoreBoard.php> LEADERBOARD</a>";
+        echo"Please login";
+    }else if(isset($_SESSION['user_login'])){
+        echo "Welcome " . $_SESSION['fName'] . " " . $_SESSION['lName'] . "!<br>";
+        echo "<a href=modules.php>HOME</a> <a href=logout.php>LOGOUT</a> <a href=scoreBoard.php> LEADERBOARD</a><br>";
+    }else if(isset($_SESSION['prof_login'])){
+        echo"Welcome professor " . $_SESSION['lName'] . "!<br>";
+        echo "<a href=modules.php>HOME</a> <a href=logout.php>LOGOUT</a> <a href=grading.php> STUDENT RESPONSES</a><br>";
     }
-
-    
-    //Get Heroku ClearDB connection information
-    $cleardb_url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-    $cleardb_server = $cleardb_url["host"];
-    $cleardb_username = $cleardb_url["user"];
-    $cleardb_password = $cleardb_url["pass"];
-    $cleardb_db = substr($cleardb_url["path"],1);
-    $active_group = 'default';
-    $query_builder = TRUE;
-    // Connect to DB
-    $conn = mysqli_connect($cleardb_server, $cleardb_username, $cleardb_password, $cleardb_db);
-
 ?>

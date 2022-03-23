@@ -16,9 +16,29 @@
 
         $statement = "SELECT * from students where email = '$attemptEm';";
         $results = $db->query($statement);
-        if($results == false){
-            echo "Invalid login! Please try again";
+        echo $results->rowCount();
+        if($results->rowCount() == 0){
+            echo "Trying professors";
+            $statement = "SELECT * from profs where email = '$attemptEm';";
+            $results = $db->query($statement);
+            if($results->rowCount() == 0){
+                echo "Invalid login, please try again";
+            }else{
+                foreach($results as $row){
+                    $realPass = "{$row['hashword']}";
+                    if(passWord_verify($attemptPw, $realPass) == true){
+                        $_SESSION['prof_login'] = true;
+                        $_SESSION['email'] = $attemptEm;
+                        $_SESSION['fName'] = "{$row['fName']}";
+                        $_SESSION['lName'] = "{$row['lName']}";
+                        $_SESSION['classId'] = "{$row['classId']}";
+
+                        header('Location: modules.php');
+                    }
+                }
+            }
         }else{
+            echo "Here!";
             foreach($results as $row){
                 $realPass = "{$row['hashWord']}";
 
