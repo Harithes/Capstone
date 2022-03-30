@@ -1,6 +1,6 @@
 <?php include("index.php");?>
 <html>
-    <h2>Create User:</h2>
+    <h2>Create Professor:</h2>
     <form method="POST">
         <p>Email: </p><input type=text name="email" maxlength="50" required>
         <p>First name: </p><input type=text name="fname" maxlength="50" required>

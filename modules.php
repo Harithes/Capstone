@@ -16,7 +16,7 @@ include("index.php");
 </style>  
     <?php
     foreach($results as $row){
-        echo "<tr><td> {$row['subtext']}</td><td><a href='resources.php'>Resources</a></td>";
+        echo "<tr><td> <a href=modInfo.php?id={$row['modId']}>{$row['modName']}</a></td>";
     }
     ?>
 
@@ -34,8 +34,8 @@ include("index.php");
         table,th,td{border: 1px solid black}
     </style> 
     <?php foreach($results as $row){
-        echo "<tr><td> {$row['modName']}</td><td><a href='resources.php'>Resources</a></td> <td><input type=submit name='updateMod' value='Update'>  
-        <input type=submit name='deleteMod' value='Delete'></td>";
+        echo "<tr><td> <a href=modInfo.php?id={$row['modId']}>{$row['modName']}</a></td>
+        <td><a href=submissions.php?id={$row['modId']}>View Submissions</a></td>";
     }
 ?>
 </table>

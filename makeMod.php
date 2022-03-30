@@ -39,9 +39,9 @@
 </html>
 
 <?php if(isset($_POST['createMod'])){
-    $modName = $_POST['modName'];
-    $modInfo = $_POST['modInfo'];
-    $modQuestion = $_POST['modQuestion'];
+    $_SESSION['modName'] = $_POST['modName'];
+    $_SESSION['modInfo'] = $_POST['modInfo'];
+    $_SESSION['modQuestion'] = $_POST['modQuestion'];
     $response = $_POST['responseType'];
     $resp1 = $_POST['resp1'];
     $resp2 = $_POST['resp2'];
@@ -51,14 +51,21 @@
     echo $modName . ", " . $modInfo . ", " . $modQuestion . ", " . $response;
     if($response == "multipleChoice"){
         echo("MULTIPLE CHOICE!<br>");
-        echo("$resp1<br>$resp2<br>$resp3<br>$resp4<br>");
+        $_SESSION['multipleChoice'] = 1;
+        $_SESSION['written'] = 0;
+        $_SESSION['mc1'] = $resp1;
+        $_SESSION['mc2'] = $resp2;
+        $_SESSION['mc3'] = $resp3;
+        $_SESSION['mc4'] = $resp4;
 
     }else if($response == "writtenResponse"){
         echo("WRITTEN RESPONSE!<br>");
-        $resp1 = "";
-        $resp2 = "";
-        $resp3 = "";
-        $resp4 = "";
-        echo("$resp1<br>$resp2<br>$resp3<br>$resp4<br>");
+        $_SESSION['multipleChoice'] = 0;
+        $_SESSION['written'] = 1;
+        $_SESSION['mc1'] = $resp1;
+        $_SESSION['mc2'] = $resp2;
+        $_SESSION['mc3'] = $resp3;
+        $_SESSION['mc4'] = $resp4;
     }
+    header("location: buildMod.php");
 }
