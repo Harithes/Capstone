@@ -19,9 +19,19 @@ if(isset($_POST['password']) && $_POST['resetLinkToken'] && $_POST['email']){
     $emailID = $_POST['email'];
     $token = $_POST['resetLinkToken'];
     $hashPw = password_hash($_POST['password'], PASSWORD_BCRYPT);
-    $query = "SELECT * FROM students WHERE resetToken='$token' AND email = '$emailID';";
-    $statement = $db->prepare($query);
-    $statement->execute();
+
+    if($_SESSION['studentEmail'] == true){
+        $query = "SELECT * FROM students WHERE resetToken='$token' AND email = '$emailID';";
+        $statement = $db->prepare($query);
+        $statement->execute();
+    }
+    else if($_SESSION['profEmail'] == true){
+        $query = "SELECT * FROM profs WHERE resetToken='$token' AND email = '$emailID';";
+        $statement = $db->prepare($query);
+        $statement->execute();
+    }
+
+    
     if($statement->rowCount() > 0){
 
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -30,8 +40,14 @@ if(isset($_POST['password']) && $_POST['resetLinkToken'] && $_POST['email']){
         #$db->exec("UPDATE students SET resetToken = '$token', expDate ='$expDate' WHERE email='$emailID';");
         #$db->commit();
 
-        $db->exec("UPDATE students SET hashWord = '$hashPw', resetToken = NULL, expDate = NULL WHERE email='$emailID';");
-        $db->commit();
+        if($_SESSION['studentEmail'] == true){
+            $db->exec("UPDATE students SET hashWord = '$hashPw', resetToken = NULL, expDate = NULL WHERE email='$emailID';");
+            $db->commit();
+        }
+        else if($_SESSION['profEmail'] == true){
+            $db->exec("UPDATE profs SET hashWord = '$hashPw', resetToken = NULL, expDate = NULL WHERE email='$emailID';");
+            $db->commit();
+        }
 
         #$query = "UPDATE students set password=". $password . ", resetLinkToken = ". NULL . ", expDate = ".NULL."WHERE email= ".$emailID.";";
         #$statement = $pdo->prepare($query);

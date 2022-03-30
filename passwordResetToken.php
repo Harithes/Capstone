@@ -19,16 +19,29 @@ use PHPMailer\PHPMailer\SMTP;
 
 require 'C:\xampp\COMPOSER\vendor\autoload.php';
 
+if(isset($_POST['userType']) && $_POST['userType'] == 'prof'){
+    echo "Proffesor Selected<br>";
+    $_SESSION['profEmail'] = true;
+    $_SESSION['studentEmail'] = false;
+}
 
-#use PHPMailer\PHPMailer\PHPMailer;
-#use PHPMailer\PHPMailer\SMTP;
-#use PHPMailer\PHPMailer\Exception;
+if(isset($_POST['userType']) && $_POST['userType'] == 'stud'){
+    echo "Student Selected<br>";
+    $_SESSION['studentEmail'] = true;
+    $_SESSION['profEmail'] = false;
+}
 
 if(isset($_POST['passwordResetToken'])&& $_POST['email']){
     $emailID = $_POST['email'];
+    if($_SESSION['studentEmail'] == true){
+        $statement = "SELECT * FROM students WHERE email = '$emailID';";
+        $results = $db->query($statement);
+    }
+    else if($_SESSION['profEmail'] == true){
+        $statement = "SELECT * FROM profs WHERE email = '$emailID';";
+        $results = $db->query($statement);
+    }
 
-    $statement = "SELECT * FROM students WHERE email = '$emailID';";
-    $results = $db->query($statement);
     if($results != null){
         $token = md5($emailID).rand(10,99);
 
@@ -42,8 +55,14 @@ if(isset($_POST['passwordResetToken'])&& $_POST['email']){
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $db->beginTransaction();
 
-            $db->exec("UPDATE students SET resetToken = '$token', expDate ='$expDate' WHERE email='$emailID';");
-            $db->commit();
+            if($_SESSION['studentEmail'] == true){
+                $db->exec("UPDATE students SET resetToken = '$token', expDate ='$expDate' WHERE email='$emailID';");
+                $db->commit();
+            }
+            else if($_SESSION['profEmail'] == true){
+                $db->exec("UPDATE profs SET resetToken = '$token', expDate ='$expDate' WHERE email='$emailID';");
+                $db->commit();
+            }
 
             $link = "<a href = 'http://localhost/sandbox/Capstone-main-recent/Capstone-main/resetPassword.php?key=".$emailID."&token=".$token."'>Click to Reset Password</a>";
             #require_once('phpmail/PHPMailerAutoload.php');
@@ -56,7 +75,7 @@ if(isset($_POST['passwordResetToken'])&& $_POST['email']){
             
             // Set SMTP server
             $mail->Host = "smtp.gmail.com";
-            $mail->SMTPAuth   = true;  
+            $mail->SMTPAuth = true;  
             $mail->Username = "WesternBusinessSim@gmail.com";
             $mail->Password = "Western2022";
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 

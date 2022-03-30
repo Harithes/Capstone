@@ -18,8 +18,16 @@ if($_GET['key'] && $_GET['token']){
     $token = $_GET['token'];
     echo "Email " . $email . "<br>";
     echo "token " . $token. "<br>";
-    $statement = "SELECT * FROM students WHERE resetToken= '$token' AND email = '$email';";
-    $results = $db->query($statement);
+
+    if($_SESSION['studentEmail'] == true){
+        $statement = "SELECT * FROM students WHERE resetToken= '$token' AND email = '$email';";
+        $results = $db->query($statement);
+    }else if($_SESSION['profEmail'] == true){
+        $statement = "SELECT * FROM profs WHERE resetToken= '$token' AND email = '$email';";
+        $results = $db->query($statement);
+    }
+
+    
 
 
 
@@ -44,7 +52,7 @@ if($_GET['key'] && $_GET['token']){
             <?php
         }
     }else{
-        echo "<p>This Forget Password Link Has Expired Please Try Again</p>";
+        echo "<p>This Forget Password Link Has Expired Please Try Again</p><br> <a href=login.php>Login</a>";
         print_r($results);
     }
 }
