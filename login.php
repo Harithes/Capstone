@@ -6,7 +6,7 @@
         <p>Password: </p><input type=password name="loginPw" maxlength="50"required>
         <input type=submit value="GO!">
     </form>
-    <a href="newUser.php">Create a new user</a> <a href="forgotPassword">Forgot password?</a> <a href="createProf.php">Create new professor</a>
+    <a href="newUser.php">Create a new user</a> <a href="forgetPassword.php">Forgot password?</a> <a href="createProf.php">Create new professor</a>
 </html>
 <?php
 
