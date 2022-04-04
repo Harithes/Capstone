@@ -2,11 +2,11 @@
     <body>
 <?php
     session_start();
-    $db = 'capstonestudents';
-    $host = 'localhost';
-    $dsn = "mysql:host=localhost;dbname=capstonestudents";
-    $un = "student";
-    $pw = "testPW";
+    $db = 'heroku_ea376caa8695210';
+$host = 'us-cdbr-east-05.cleardb.net';
+$dsn = "mysql:host=us-cdbr-east-05.cleardb.net;dbname=heroku_ea376caa8695210";
+$un = "b36d9559844521";
+$pw = "7383d077";
     try
     {
         $db = new PDO($dsn, $un, $pw);
