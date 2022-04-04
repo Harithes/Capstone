@@ -9,7 +9,7 @@ if (isset($_GET['id'])){
 
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    $select = "SELECT * FROM modSubs WHERE fName = '$fName' AND lName = '$lName'";
+    $select = "SELECT * FROM modSubs WHERE fName = '$fName' AND lName = '$lName' AND modId = $currId";
     $results = $db->query($select);
     if($results->rowCount() > 0){
         echo "You have already made a submission to this module! check submissions below:<br>

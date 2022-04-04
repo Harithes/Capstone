@@ -4,7 +4,7 @@ include("index.php");
 <table>
     <tr>
         <td>Module Name</td>
-        <td>Extra Resources</td>
+        <td>Submissions</td>
     </tr>
 <?php if(isset($_SESSION['user_login'])) //student view
 {
@@ -16,7 +16,8 @@ include("index.php");
 </style>  
     <?php
     foreach($results as $row){
-        echo "<tr><td> <a href=modInfo.php?id={$row['modId']}>{$row['modName']}</a></td>";
+        echo "<tr><td> <a href=modInfo.php?id={$row['modId']}>{$row['modName']}</a></td>
+        <td><a href=submissions.php?id={$row['modId']}>View Submissions</a></td>";
     }
     ?>
 

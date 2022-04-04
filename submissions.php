@@ -6,9 +6,10 @@ if(isset($_SESSION['currId'])){
     $currId = $_SESSION['currId'];
 }*/
 if (isset($_GET['id'])){
-    echo "Getting";
+    //echo "Getting";
     $id = $_GET['id'];
-    $statement = "SELECT * from modSubs where modId = $id";
+    echo "<br>ID: $id";
+    $statement = "SELECT * from modules where modId = $id";
     $results = $db->query($statement);
     if($results->rowCount() == 0){
         echo "Nothing found!";
@@ -16,7 +17,7 @@ if (isset($_GET['id'])){
     foreach($results as $row){
         $_SESSION['modName'] = "{$row['modName']}";
     }
-    echo $_SESSION['modName'];
+    //echo $_SESSION['modName'];
 }
 $modName = $_SESSION['modName'];
 echo "<h2>$modName</h2>";
