@@ -50,7 +50,10 @@ modName varchar(30),
 classId int,
 subInfo mediumtext,
 fName varchar(20),
-lName varchar(20));
+lName varchar(20),
+grade int,
+gradeComment mediumtext,
+profChanged bit);
 
 
 insert into admins(adminLogin) values('$2y$10$Nfhs8ch4ewTI.YJL2WYEEuYAmpjAio4/3es83s4OBk3LRrrQOVq8S');

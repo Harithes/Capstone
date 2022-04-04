@@ -28,6 +28,7 @@ if (isset($_GET['id'])){
         $mc4 = "{$r['mc4']}";
         $written = "{$r['written']}";
     }
+    //NEED TO MAKE THIS WORK FOR LESS THAN 4 QUESTIONS(maybe?)
     $_SESSION['modName'] = $modName;
     echo "<h2>$modName</h2>";
     echo "$modQuestion<br><br>";
@@ -78,7 +79,8 @@ if(isset($_POST['submitAnswer'])){
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $db->beginTransaction();
 
-        $db->exec("INSERT INTO modSubs (modId, modName, classId, subInfo, fName, lName) VALUES ($currId,'$modName', '$classId', '$answer', '$fName', '$lName');");
+        $db->exec("INSERT INTO modSubs (modId, modName, classId, subInfo, fName, lName, grade, gradeComment, profChanged) 
+        VALUES ($currId,'$modName', '$classId', '$answer', '$fName', '$lName', 0, '', 0);");
         $db->commit();
         header('Location: submissions.php');
     }catch(PDOException $e)
