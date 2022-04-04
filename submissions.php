@@ -43,7 +43,9 @@ $statement = "SELECT * from modSubs where modName = '$modName' AND classId = $cl
             <td>$lName</td>
             <td>$subInfo</td>";
             if(isset($_SESSION['prof_login'])){
-                echo "<td><a href=deleteSub.php?id={$row['submissionId']}>delete</a></td";
+                echo "<td>Grade: {$row['grade']}%</td>
+                <td><a href=gradeStudent.php?id={$row['submissionId']}>change grade</a></td>
+                <td><a href=deleteSub.php?id={$row['submissionId']}>delete</a></td";
             }
             echo "</tr>";
         }
