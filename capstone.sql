@@ -10,6 +10,7 @@ create table students(
     hashWord varchar(255),
     classId int,
     expDate INT default null,
+	verifyToken bit default 0,
 	resetToken INT default null
 );
 
