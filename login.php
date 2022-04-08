@@ -17,6 +17,11 @@
         $statement = "SELECT * from students where email = '$attemptEm';";
         $results = $db->query($statement);
         echo $results->rowCount();
+
+        $verify = "SELECT * from students where verifyBit = 1 AND email = '$attemptEm'";
+        $res = $db->query($verify)
+
+
         if($results->rowCount() == 0){
             echo "Trying professors";
             $statement = "SELECT * from profs where email = '$attemptEm';";
@@ -37,7 +42,7 @@
                     }
                 }
             }
-        }else{
+        }else if($res->rowCount() != 0){
             echo "Here!";
             foreach($results as $row){
                 $realPass = "{$row['hashWord']}";
@@ -52,6 +57,9 @@
                     header('Location: modules.php');
                 }
             }
+        }else{
+            echo "Email not verified";
+            header('Location: login.php');
         }
     }
 ?>
