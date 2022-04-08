@@ -19,7 +19,7 @@
         echo $results->rowCount();
 
         $verify = "SELECT * from students where verifyBit = 1 AND email = '$attemptEm'";
-        $res = $db->query($verify)
+        $res = $db->query($verify);
 
 
         if($results->rowCount() == 0){
