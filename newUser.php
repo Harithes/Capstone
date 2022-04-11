@@ -29,7 +29,9 @@ require 'vendor/autoload.php';
     </form>
 </html>
 
+
 <?php
+/*
     if(isset($_POST['hidden'])){
         $newEmail = $_POST['email'];
         $fName = $_POST['fname'];
@@ -74,4 +76,5 @@ require 'vendor/autoload.php';
 
         
     }
+*/
 ?>

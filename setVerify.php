@@ -6,7 +6,7 @@ if($_GET['key'] && $_GET['token']){
     echo "Email " . $email . "<br>";
     echo "Token " . $token . "<br>";
 
-    $statement = "SELECT * FROM students WHERE resetToken= '$token' AND email = '$email';";
+    $statement = "SELECT * FROM students WHERE verifyToken= '$token' AND email = '$email';";
     $results = $db->query($statement);
 
     $curDate = date("Y-m-d H:i:s");
@@ -18,7 +18,7 @@ if($_GET['key'] && $_GET['token']){
             echo "second if <br>";
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $db->beginTransaction();
-            $db->exec("UPDATE students SET verifyBit = 1, resetToken = NULL, expDate = NULL WHERE email='$email';");
+            $db->exec("UPDATE students SET verifyBit = 1, verifyToken = NULL, expDate = NULL WHERE email='$email';");
             $db->commit();
             
             echo '<p>Account Verified</p> <br> <a href=login.php>Login</a>';

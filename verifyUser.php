@@ -6,6 +6,52 @@ use PHPMailer\PHPMailer\SMTP;
 
 require 'vendor/autoload.php';
 
+#Create user in db
+    if(isset($_POST['hidden'])){
+        $newEmail = $_POST['email'];
+        $fName = $_POST['fname'];
+        $lName = $_POST['lname'];
+        $newPw = $_POST['pw'];
+        $newId = $_POST['classId'];
+
+        
+
+        #Creating new user start
+        try
+        {
+            $select = $db->prepare("SELECT email from students where email like '$newEmail'");
+            $select->execute();
+            if($select->rowCount() > 0)
+            {
+                echo "email already in use! Please try a different email.";
+            }
+            else
+            {
+                try
+                {
+                    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $db->beginTransaction();
+                    $hashPw = password_hash($newPw, PASSWORD_BCRYPT);
+
+                    $db->exec("INSERT INTO students (email, fName, lName, hashWord, classId) VALUES ('$newEmail', '$fName', '$lName', '$hashPw', '$newId');");
+                    $db->commit();
+                }
+                catch(PDOException $e)
+                {
+                    echo $e->getMessage();
+                }
+            }
+        }
+        catch(PDOException $e)
+        {
+            echo "Couldn't query!";
+        }
+        
+
+        
+    }
+#end user create db
+
 if(isset($_POST['email'])){
     $newEmail = $_POST['email'];
     $statement = "SELECT * FROM students WHERE email = '$newEmail';";
