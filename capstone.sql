@@ -9,9 +9,10 @@ create table students(
     lName varchar(20),
     hashWord varchar(255),
     classId int,
-    expDate INT default null,
-	verifyToken bit default 0,
-	resetToken INT default null
+    expDate varchar(50),
+	verifyToken varchar(100),
+	verifyBit bit default 0,
+	resetToken varchar(100)
 );
 
 drop table if exists profs;
