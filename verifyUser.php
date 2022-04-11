@@ -6,34 +6,67 @@ use PHPMailer\PHPMailer\SMTP;
 
 require 'vendor/autoload.php';
 
-
-if($_GET['key'] && $_GET['token']){
-    $email = $_GET['key'];
-    $token = $_GET['token'];
-    echo "Email " . $email . "<br>";
-    echo "token " . $token. "<br>";
-
-    
-    $statement = "SELECT * FROM students WHERE verifyToken= '$token' AND email = '$email';";
+if(isset($_POST['email'])){
+    $newEmail = $_POST['email'];
+    $statement = "SELECT * FROM students WHERE email = '$newEmail';";
     $results = $db->query($statement);
 
+        if($results != null){
+            $vToken = md5($newEmail).rand(10,99);
     
-    $curDate = date("Y-m-d H:i:s");
-    echo "Results null? <br>";
-    if($results->rowCount() > 0){
-        $row = array($results);
-        echo "First if <br>";
-        if(array_column($row,'expDate') >= $curDate){
-            #Set verify bit to true here redirect to login.php
-            #Need to change login.php so verify bit has to be true for students to login
-            $db->exec("UPDATE students SET verifyBit = 1, verifyToken = NULL, expDate = NULL WHERE email='$emailID';");
-            $db->commit();
-            echo "<a href=login.php>Login</a>";
+            $expFormat = mktime(date("H"), date("i"), date("s"), date("m"), date("d")+1, date("Y"));
+            $expDate = date("Y-m-d H:i:s", $expFormat);
+            
+            #$query = "UPDATE students SET resetToken='$token',expDate='$expDate',WHERE email='$emailID'";
+            #$stmt = $db->prepare($query);
+            #$stmt->execute();
+            try{
+                $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $db->beginTransaction();
+    
+                $db->exec("UPDATE students SET verifyToken = '$vToken', expDate ='$expDate' WHERE email='$newEmail';");
+                $db->commit();
+                
+                
+    
+                $link = "<a href = 'https://business-sim.herokuapp.com/setVerify.php?key=".$newEmail."&token=".$vToken."'>Click to Reset Password</a>";
+                #require_once('phpmail/PHPMailerAutoload.php');
+    
+                $mail = new PHPMailer(true);
+    
+                // enable SMTP authentication
+                #$mail->SMTPDebug = SMTP::DEBUG_SERVER; 
+                $mail->IsSMTP();
+                
+                // Set SMTP server
+                $mail->Host = "smtp.gmail.com";
+                $mail->SMTPAuth = true;  
+                $mail->Username = "WesternBusinessSim@gmail.com";
+                $mail->Password = "Western2022";
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
+                
+                //Setting SMTP port for server
+                $mail->Port = "465";
+                $mail->setFrom = "WesternBusinessSim@gmail.com";
+                $mail->FromName = "Western Business Sim";
+                $mail->AddAddress($newEmail);
+                $mail->Subject = 'Verify Account';
+                $mail->IsHTML(true);
+                $mail->Body = 'Click This Link to verify your account for Buisness Sim '. $link . '';
+            
+    
+            if($mail->Send()){
+                echo "Check your Email and Click the link sent to your email <br> <a href=login.php>Back to Login Page</a>";
+            }
+        }catch(phpmailerException $e){
+            echo $e->errorMessage();
+            echo "<br> <a href=login.php>Login</a>";
+        }catch(Exception $e){
+            echo $e->getMessage();
+            echo "<br> <a href=login.php>Login</a>";
         }
-    }else{
-        echo "<p>This User Verification Link Has Expired Please Try Again</p><br> <a href=login.php>Login</a>";
-        print_r($results);
+        }else{
+            echo "Invalid Email Address. Go Back. <br> <a href=login.php>Login</a>";
+        }
     }
-}
-
 ?>
