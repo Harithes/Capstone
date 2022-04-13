@@ -17,6 +17,7 @@ create table students(
 
 drop table if exists profs;
 create table profs(
+	profId int primary key auto_increment,
 	email varchar(30),
     fName varchar(20),
     lName varchar(20),
@@ -25,6 +26,15 @@ create table profs(
     expDate INT default null,
     resetToken INT default null
 );
+
+drop table if exists classes;
+create table classes(
+	primId int primary key auto_increment,
+    profId int,
+    classId int,
+    className varchar(50)
+);
+
 drop table if exists admins;
 create table admins(
 adminLogin varchar(255)
