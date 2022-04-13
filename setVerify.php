@@ -1,5 +1,5 @@
 <?php
-
+include("index.php");
 if($_GET['key'] && $_GET['token']){
     $email = $_GET['key'];
     $token = $_GET['token'];
