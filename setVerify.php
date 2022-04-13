@@ -7,7 +7,8 @@ if($_GET['key'] && $_GET['token']){
     echo "Token " . $token . "<br>";
 
     $statement = "SELECT * FROM students WHERE verifyToken= '$token' AND email = '$email';";
-    $results = $db->query($statement);
+    $results = $db->prepare($statement);
+    $results->execute();
 
     $curDate = date("Y-m-d H:i:s");
     echo "Results null? <br>";
