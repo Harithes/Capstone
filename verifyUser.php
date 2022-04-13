@@ -38,12 +38,12 @@ require 'vendor/autoload.php';
                     $db->commit();
                     */
                     
-                    $stmt = $db->exec("INSERT INTO students (email, fName, lName, hashWord, classId) VALUES (:email, :fName, :lName, :hashPw, :id);");
+                    $insert = "INSERT INTO students (email, fName, lName, hashWord, classId) VALUES (:email, :fName, :lName, :hashPw, $newId);";
+                    $stmt = $db->prepare($insert);
                     $stmt->bindValue(':email', $newEmail);
                     $stmt->bindValue(':fName', $fName);
                     $stmt->bindValue(':lName', $lName);
                     $stmt->bindValue(':hashPw', $hashPw);
-                    $stmt->bindValue(':id', $newId, PDO::PARAM_INT);
                     $stmt->execute();
                     
                     
