@@ -28,4 +28,5 @@ if($_GET['key'] && $_GET['token']){
         print_r($results);
     }
 }
+echo "<a href=login.php>Login</a>";
 ?>
