@@ -5,11 +5,17 @@ if($_GET['key'] && $_GET['token']){
     $token = $_GET['token'];
     echo "Email " . $email . "<br>";
     echo "Token " . $token . "<br>";
+    
+    $results = $db->prepare("SELECT * FROM students WHERE verifyToken= :token AND email = :email;");
+    $results -> bindParam(':token', $token);
+    $results -> bindParam(':email', $email);
+    $results->execute();
 
+    /*
     $statement = "SELECT * FROM students WHERE verifyToken= '$token' AND email = '$email';";
     $results = $db->prepare($statement);
     $results->execute();
-
+    */
     $curDate = date("Y-m-d H:i:s");
     echo "Results null? <br>";
     if($results->rowCount() > 0){
