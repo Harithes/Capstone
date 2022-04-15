@@ -6,7 +6,7 @@
         <p>Password: </p><input type=password name="loginPw" maxlength="50"required>
         <input type=submit value="GO!">
     </form>
-    <a href="newUser.php">Create a new user</a> <a href="forgetPassword.php">Forgot password?</a> <a href="createProf.php">Create new professor</a>
+    <a href="newUser.php">Create a new user</a> <a href="forgetPassword.php">Forgot password?</a> <a href="createProf.php">Create new professor</a><a href="resendVerify.php">Resend Email Verification</a>
 </html>
 <?php
 
@@ -19,7 +19,7 @@
         echo $results->rowCount();
 
         $verify = "SELECT * from students where verifyBit = 1 AND email = '$attemptEm'";
-        $res = $db->query($verify);
+        $res = $db->query($verify)
 
 
         if($results->rowCount() == 0){
@@ -42,7 +42,7 @@
                     }
                 }
             }
-        }else if($res->rowCount() != 0){
+        }if($res->rowCount() > 0){
             echo "Here!";
             foreach($results as $row){
                 $realPass = "{$row['hashWord']}";
