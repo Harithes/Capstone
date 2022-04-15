@@ -1,4 +1,6 @@
-<?php include("index.php");?>
+<?php include("index.php");
+$_SESSION['home'] = true;
+?>
 <html>
     <h2>Login:</h2>
     <form method="POST">    
