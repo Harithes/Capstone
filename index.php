@@ -14,7 +14,7 @@
     {
         echo "could not connect to database";
     }
-        header("location: login.php");
+    
     if((!isset($_SESSION['user_login'])) && (!isset($_SESSION['prof_login'])))
     {
         echo"Please login";
@@ -24,5 +24,8 @@
     }else if(isset($_SESSION['prof_login'])){
         echo"Welcome professor " . $_SESSION['lName'] . "!<br>";
         echo "<a href=modules.php>HOME</a> <a href=logout.php>LOGOUT</a> <a href=grading.php> STUDENT RESPONSES</a><br>";
+    }
+    if($_SESSION['home'] != true){
+        header("location: login.php");
     }
 ?>
