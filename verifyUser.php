@@ -33,18 +33,12 @@ require 'vendor/autoload.php';
                     $db->beginTransaction();
                     $hashPw = password_hash($newPw, PASSWORD_BCRYPT);
                        
-                    /*
+                    
                     $db->exec("INSERT INTO students (email, fName, lName, hashWord, classId) VALUES ('$newEmail', '$fName', '$lName', '$hashPw', '$newId');");
                     $db->commit();
-                    */
                     
-                    $insert = "INSERT INTO students (email, fName, lName, hashWord, classId) VALUES (:email, :fName, :lName, :hashPw, $newId);";
-                    $stmt = $db->prepare($insert);
-                    $stmt->bindValue(':email', $newEmail);
-                    $stmt->bindValue(':fName', $fName);
-                    $stmt->bindValue(':lName', $lName);
-                    $stmt->bindValue(':hashPw', $hashPw);
-                    $stmt->execute();
+                    
+                    
                     
                     
                 }
