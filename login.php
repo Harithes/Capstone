@@ -14,12 +14,10 @@
         $attemptEm = $_POST['loginEm'];
         $attemptPw = $_POST['loginPw'];
 
-        $statement = "SELECT * from students where email = '$attemptEm';";
+        $statement = "SELECT * from students where verifyBit = 1 AND email = '$attemptEm';";
         $results = $db->query($statement);
         echo $results->rowCount();
 
-        $verify = "SELECT * from students where verifyBit = 1 AND email = '$attemptEm'";
-        $res = $db->query($verify)
 
 
         if($results->rowCount() == 0){
@@ -42,7 +40,7 @@
                     }
                 }
             }
-        }if($res->rowCount() > 0){
+        }if($results->rowCount() > 0){
             echo "Here!";
             foreach($results as $row){
                 $realPass = "{$row['hashWord']}";
