@@ -14,6 +14,7 @@
     {
         echo "could not connect to database";
     }
+        header("location: login.php");
     if((!isset($_SESSION['user_login'])) && (!isset($_SESSION['prof_login'])))
     {
         echo"Please login";
