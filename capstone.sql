@@ -23,8 +23,8 @@ create table profs(
     lName varchar(20),
     hashword varchar(225),
     classId int,
-    expDate INT default null,
-    resetToken INT default null
+    expDate varchar(50),
+    resetToken varchar(100)
 );
 
 drop table if exists classes;
