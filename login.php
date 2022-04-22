@@ -1,6 +1,4 @@
-<?php include("index.php");
-$_SESSION['home'] = true;
-?>
+<?php include("index.php");?>
 <html>
     <h2>Login:</h2>
     <form method="POST">    
@@ -8,7 +6,7 @@ $_SESSION['home'] = true;
         <p>Password: </p><input type=password name="loginPw" maxlength="50"required>
         <input type=submit value="GO!">
     </form>
-    <a href="newUser.php">Create a new user</a> <a href="forgetPassword.php">Forgot password?</a> <a href="createProf.php">Create new professor</a> <a href="resendVerify.php">Resend Email Verification</a>
+    <a href="newUser.php">Create a new user</a> <a href="forgetPassword.php">Forgot password?</a> <a href="createProf.php">Create new professor</a><a href="resendVerify.php">Resend email verification</a>
 </html>
 <?php
 
@@ -18,12 +16,10 @@ $_SESSION['home'] = true;
 
         $statement = "SELECT * from students where verifyBit = 1 AND email = '$attemptEm';";
         $results = $db->query($statement);
-        echo $results->rowCount();
-
-
+        $count = $results->rowCount();
+        echo $count;
 
         if($results->rowCount() == 0){
-            echo "Trying professors";
             $statement = "SELECT * from profs where email = '$attemptEm';";
             $results = $db->query($statement);
             if($results->rowCount() == 0){
@@ -36,9 +32,9 @@ $_SESSION['home'] = true;
                         $_SESSION['email'] = $attemptEm;
                         $_SESSION['fName'] = "{$row['fName']}";
                         $_SESSION['lName'] = "{$row['lName']}";
-                        $_SESSION['classId'] = "{$row['classId']}";
-
-                        header('Location: modules.php');
+                        $_SESSION['profId'] = "{$row['profId']}";
+                        $_SESSION['badPageForIndex'] = 1;
+                        header('Location: selectClass.php');
                     }
                 }
             }
@@ -58,8 +54,7 @@ $_SESSION['home'] = true;
                 }
             }
         }else{
-            echo "Email not verified";
-            header('Location: login.php');
+            echo "Email invalid";
         }
     }
 ?>

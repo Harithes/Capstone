@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-require 'vendor/autoload.php';
+require 'C:/xampp/COMPOSER/vendor/autoload.php';
 
 #Create user in db
     if(isset($_POST['hidden'])){
@@ -88,7 +88,7 @@ if(isset($_POST['email'])){
                 
                 
     
-                $link = "<a href = 'https://business-sim.herokuapp.com/setVerify.php?key=".$newEmail."&token=".$vToken."'>Click to Reset Password</a>";
+                $link = "<a href = 'http://localhost/sandbox/seniorCapstone/testing/setVerify.php?key=".$newEmail."&token=".$vToken."'>Click to Reset Password</a>";
                 #require_once('phpmail/PHPMailerAutoload.php');
     
                 $mail = new PHPMailer(true);

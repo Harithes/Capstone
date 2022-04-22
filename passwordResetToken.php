@@ -64,7 +64,7 @@ if(isset($_POST['passwordResetToken'])&& $_POST['email']){
                 $db->commit();
             }
 
-            $link = "<a href = 'https://business-sim.herokuapp.com/resetPassword.php?key=".$emailID."&token=".$token."'>Click to Reset Password</a>";
+            $link = "<a href = 'http://localhost/sandbox/seniorCapstone/testing/resetPassword.php?key=".$emailID."&token=".$token."'>Click to Reset Password</a>";
             #require_once('phpmail/PHPMailerAutoload.php');
 
             $mail = new PHPMailer(true);

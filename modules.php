@@ -1,5 +1,9 @@
 <?php
 include("index.php");
+if(isset($_SESSION['badPageForIndex'])){
+    unset($_SESSION['badPageForIndex']);
+    header("Refresh:0");
+}
 ?>
 <table>
     <tr>
@@ -26,7 +30,11 @@ include("index.php");
 
 <?php //prof view
 }elseif(isset($_SESSION['prof_login'])){
+    if(isset($_GET['id'])){
+        $_SESSION['classId'] = $_GET['id'];
+    }
     echo"<br>Your modules:<br>";
+    //need to change this to GET statement due to class selection
     $currId = $_SESSION['classId'];
     $statement = "SELECT * FROM modules WHERE classId = '$currId'";
     $results = $db->query($statement);?>
