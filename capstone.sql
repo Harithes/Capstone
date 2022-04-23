@@ -44,9 +44,9 @@ drop table if exists modules;
 create table modules(
 modId int primary key auto_increment,
 classId int,
-modName varchar(30),
+modName varchar(255),
 modInfo mediumtext,
-modQuestion varchar(100),
+modQuestion mediumtext,
 multipleChoice bit,
 mc1 varchar(40),
 mc2 varchar(40),
