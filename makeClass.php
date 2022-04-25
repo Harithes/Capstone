@@ -24,7 +24,7 @@ if(isset($_POST['hidden'])){
         $stmt = $db->prepare($insert);
         $stmt->bindValue(':id', $profId);
         $stmt->bindValue(':classId', $classId);
-        $stmt->bindValue(':className', $lName);
+        $stmt->bindValue(':className', $className);
         $stmt->execute();
         $db->commit();
         header("location: modules.php");

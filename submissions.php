@@ -8,10 +8,15 @@ if(isset($_SESSION['currId'])){
 if (isset($_GET['id'])){
     //echo "Getting";
     $id = $_GET['id'];
-    echo "<br>ID: $id";
-    $statement = "SELECT * from modules where modId = $id";
-    $results = $db->query($statement);
-    if($results->rowCount() == 0){
+    //echo "<br>ID: $id";
+    $db->beginTransaction();
+    $select = "SELECT * from modules where modId = :id";
+    $stmt = $db->prepare($select);
+    $stmt->bindValue(':id', $id);
+    $stmt->execute();
+    $results = $stmt->fetchAll();
+    $db->commit();
+    if(count($results) == 0){
         echo "Nothing found!";
     }
     foreach($results as $row){
@@ -21,10 +26,16 @@ if (isset($_GET['id'])){
 }
 $modName = $_SESSION['modName'];
 echo "<h2>$modName</h2>";
-$statement = "SELECT * from modSubs where modName = '$modName' AND classId = $classId";
-    $results = $db->query($statement);
-    if($results == false){
-        echo "Something broke!";
+$db->beginTransaction();
+$select = "SELECT * from modSubs where modName = :modName AND classId = :id";
+$stmt = $db->prepare($select);
+$stmt->bindValue(':modName', $modName);
+$stmt->bindValue(':id', $classId);
+$stmt->execute();
+$results = $stmt->fetchAll();
+$db->commit();
+    if(count($results) == 0){
+        echo "No submissions!";
     }else{
         echo"<style>table,th,td{border: 1px solid black}</style>";
         echo"<table>";

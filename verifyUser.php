@@ -88,7 +88,7 @@ if(isset($_POST['email'])){
                 
                 
     
-                $link = "<a href = 'http://localhost/sandbox/seniorCapstone/testing/setVerify.php?key=".$newEmail."&token=".$vToken."'>Click to Reset Password</a>";
+                $link = "<a href = 'http://localhost/sandbox/seniorCapstone/testing/setVerify.php?key=".$newEmail."&token=".$vToken."'>Click to Verify</a>";
                 #require_once('phpmail/PHPMailerAutoload.php');
     
                 $mail = new PHPMailer(true);
@@ -101,7 +101,7 @@ if(isset($_POST['email'])){
                 $mail->Host = "smtp.gmail.com";
                 $mail->SMTPAuth = true;  
                 $mail->Username = "WesternBusinessSim@gmail.com";
-                $mail->Password = "Western2022";
+                $mail->Password = "BSimWestern2022";
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
                 
                 //Setting SMTP port for server

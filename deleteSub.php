@@ -13,11 +13,14 @@
         try
         {
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+            $db->beginTransaction();
             $statement = "DELETE FROM modSubs WHERE submissionId = $id;";
-            $db->exec($statement);
+            $stmt = $db->prepare($statement);
+            $stmt->bindValue(':id', $id);
+            $stmt->execute();
+            $db->commit();
             echo "Record deleted successfully!<br>";
-            header('Location: submissions.php');
+            header('Location: modules.php');
         }catch(PDOException $e)
         {
             echo "Could not delete from database<br>";

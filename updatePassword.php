@@ -21,14 +21,22 @@ if(isset($_POST['password']) && $_POST['resetLinkToken'] && $_POST['email']){
     $hashPw = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
     if($_SESSION['studentEmail'] == true){
+        $db->beginTransaction();
         $query = "SELECT * FROM students WHERE resetToken='$token' AND email = '$emailID';";
         $statement = $db->prepare($query);
+        $statement->bindValue(':token', $token);
+        $statement->bindValue(':email', $emailId);
         $statement->execute();
+        $db->commit;
     }
     else if($_SESSION['profEmail'] == true){
+        $db->beginTransaction();
         $query = "SELECT * FROM profs WHERE resetToken='$token' AND email = '$emailID';";
         $statement = $db->prepare($query);
+        $statement->bindValue(':token', $token);
+        $statement->bindValue(':email', $emailId);
         $statement->execute();
+        $db->commit;
     }
 
     

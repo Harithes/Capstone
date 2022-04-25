@@ -9,9 +9,12 @@
 <?php
     if(isset($_POST['profCode'])){
         $attemptCode = $_POST['profCode'];
-
+        $db->beginTransaction();
         $statement = "SELECT adminLogin from admins;";
-        $results = $db->query($statement);
+        $stmt = $db->prepare($statement);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        $db->commit();
         foreach($results as $row){
             $pass = "{$row['adminLogin']}";
         }

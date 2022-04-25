@@ -13,8 +13,13 @@ if(isset($_SESSION['badPageForIndex'])){
 <?php if(isset($_SESSION['user_login'])) //student view
 {
     $currId = $_SESSION['classId'];
-    $statement = "SELECT * FROM modules WHERE classId = '$currId'";
-    $results = $db->query($statement);?>
+    $db->beginTransaction();
+    $statement = "SELECT * FROM modules WHERE classId = :id";
+    $stmt = $db->prepare($statement);
+    $stmt->bindValue(':id', $currId);
+    $stmt->execute();
+    $results = $stmt->fetchAll();
+    $db->commit();?>
 <style>
         table,th,td{border: 1px solid black}
 </style>  
@@ -36,8 +41,13 @@ if(isset($_SESSION['badPageForIndex'])){
     echo"<br>Your modules:<br>";
     //need to change this to GET statement due to class selection
     $currId = $_SESSION['classId'];
-    $statement = "SELECT * FROM modules WHERE classId = '$currId'";
-    $results = $db->query($statement);?>
+    $db->beginTransaction();
+    $statement = "SELECT * FROM modules WHERE classId = :id";
+    $stmt = $db->prepare($statement);
+    $stmt->bindValue(':id', $currId);
+    $stmt->execute();
+    $results = $stmt->fetchAll();
+    $db->commit();?>
     <table>
     <style>
         table,th,td{border: 1px solid black}

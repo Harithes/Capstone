@@ -20,11 +20,21 @@ if($_GET['key'] && $_GET['token']){
     echo "token " . $token. "<br>";
 
     if($_SESSION['studentEmail'] == true){
-        $statement = "SELECT * FROM students WHERE resetToken= '$token' AND email = '$email';";
-        $results = $db->query($statement);
+        $db->beginTransaction();
+        $query = "SELECT * FROM students WHERE resetToken='$token' AND email = '$emailID';";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':token', $token);
+        $statement->bindValue(':email', $emailId);
+        $statement->execute();
+        $db->commit;
     }else if($_SESSION['profEmail'] == true){
-        $statement = "SELECT * FROM profs WHERE resetToken= '$token' AND email = '$email';";
-        $results = $db->query($statement);
+        $db->beginTransaction();
+        $query = "SELECT * FROM students WHERE resetToken='$token' AND email = '$emailID';";
+        $statement = $db->prepare($query);
+        $statement->bindValue(':token', $token);
+        $statement->bindValue(':email', $emailId);
+        $statement->execute();
+        $db->commit;
     }
 
     

@@ -39,14 +39,15 @@ if(isset($_POST['gradeStudent'])){
     try
         {
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $db->beginTransaction();
             $query = "UPDATE modSubs SET grade=$grade, gradeComment='$comment', profChanged=1 WHERE submissionId=$gradeId;";
             $statment = $db->prepare($query);
             $statment->execute();
-            echo "Update complete! Changed $name to $updatedName<br>";
+            $db->commit();
             header('Location: submissions.php');
         }catch(PDOException $e)
         {
-            echo "Could not update database<br>";
+            echo $e->getMessage();
         }
 }
 ?>

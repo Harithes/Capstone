@@ -5,11 +5,12 @@ if($_GET['key'] && $_GET['token']){
     $token = $_GET['token'];
     echo "Email " . $email . "<br>";
     echo "Token " . $token . "<br>";
-    
+    $db->beginTransaction();
     $results = $db->prepare("SELECT * FROM students WHERE verifyToken= :token AND email = :email;");
     $results -> bindParam(':token', $token);
     $results -> bindParam(':email', $email);
     $results->execute();
+    $db->commit();
 
     /*
     $statement = "SELECT * FROM students WHERE verifyToken= '$token' AND email = '$email';";

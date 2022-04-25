@@ -34,12 +34,23 @@ if(isset($_POST['userType']) && $_POST['userType'] == 'stud'){
 if(isset($_POST['passwordResetToken'])&& $_POST['email']){
     $emailID = $_POST['email'];
     if($_SESSION['studentEmail'] == true){
-        $statement = "SELECT * FROM students WHERE email = '$emailID';";
-        $results = $db->query($statement);
+        $db->beginTransaction();
+        $statement = "SELECT * FROM students WHERE email = :id";
+        $stmt = $db->prepare($statement);
+        $stmt->bindValue(':id', $emailID);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        $db->commit();
+        //$results = $db->query($statement);
     }
     else if($_SESSION['profEmail'] == true){
+        $db->beginTransaction();
         $statement = "SELECT * FROM profs WHERE email = '$emailID';";
-        $results = $db->query($statement);
+        $stmt = $db->prepare($statement);
+        $stmt->bindValue(':id', $emailID);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        $db->commit();
     }
 
     if($results != null){
@@ -56,11 +67,21 @@ if(isset($_POST['passwordResetToken'])&& $_POST['email']){
             $db->beginTransaction();
 
             if($_SESSION['studentEmail'] == true){
-                $db->exec("UPDATE students SET resetToken = '$token', expDate ='$expDate' WHERE email='$emailID';");
+                $statement = "UPDATE students SET resetToken = :token, expDate =:expDate WHERE email= :id";
+                $stmt = $db->prepare($statement);
+                $stmt->bindValue(':token', $token);
+                $stmt->bindValue(':expDate', $expDate);
+                $stmt->bindValue(':id', $emailID);
+                $stmt->execute();
                 $db->commit();
             }
             else if($_SESSION['profEmail'] == true){
-                $db->exec("UPDATE profs SET resetToken = '$token', expDate ='$expDate' WHERE email='$emailID';");
+                $statement = "UPDATE profs SET resetToken = :token, expDate =:expDate WHERE email=:id";
+                $stmt = $db->prepare($statement);
+                $stmt->bindValue(':token', $token);
+                $stmt->bindValue(':expDate', $expDate);
+                $stmt->bindValue(':id', $emailID);
+                $stmt->execute();
                 $db->commit();
             }
 
@@ -77,7 +98,7 @@ if(isset($_POST['passwordResetToken'])&& $_POST['email']){
             $mail->Host = "smtp.gmail.com";
             $mail->SMTPAuth = true;  
             $mail->Username = "WesternBusinessSim@gmail.com";
-            $mail->Password = "Western2022";
+            $mail->Password = "BSimWestern2022";
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
             
             //Setting SMTP port for server

@@ -1,9 +1,14 @@
 <?php
 include("index.php");
+$db->beginTransaction();
 $profId = $_SESSION['profId'];
-$statement = "SELECT * FROM classes WHERE profId = $profId";
-$results = $db->query($statement);
-if($results->rowCount() == 0){
+$select = "SELECT * FROM classes WHERE profId = :id";
+$stmt = $db->prepare($select);
+$stmt->bindValue(':id', $profId);
+$stmt->execute();
+$results = $stmt->fetchAll();
+$db->commit();
+if(count($results) == 0){
     echo "You have no classes made! <br>Create a new class?";
 }else{
     echo"<style>table,th,td{border: 1px solid black; padding: 15px}</style>";

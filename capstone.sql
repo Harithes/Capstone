@@ -10,9 +10,9 @@ create table students(
     hashWord varchar(255),
     classId int,
     expDate varchar(50),
-	verifyToken varchar(100),
-	verifyBit bit default 0,
-	resetToken varchar(100)
+	resetToken varchar(100),
+    verifyBit bit default 0,
+    verifyToken varchar(100)
 );
 
 drop table if exists profs;
@@ -22,9 +22,8 @@ create table profs(
     fName varchar(20),
     lName varchar(20),
     hashword varchar(225),
-    classId int,
-    expDate varchar(50),
-    resetToken varchar(100)
+    expDate INT default null,
+    resetToken INT default null
 );
 
 drop table if exists classes;
@@ -44,9 +43,9 @@ drop table if exists modules;
 create table modules(
 modId int primary key auto_increment,
 classId int,
-modName varchar(255),
+modName varchar(75),
 modInfo mediumtext,
-modQuestion mediumtext,
+modQuestion varchar(100),
 multipleChoice bit,
 mc1 varchar(40),
 mc2 varchar(40),
@@ -58,7 +57,7 @@ drop table if exists modSubs;
 create table modSubs(
 submissionId int primary key auto_increment,
 modId int,
-modName varchar(30),
+modName varchar(75),
 classId int,
 subInfo mediumtext,
 fName varchar(20),

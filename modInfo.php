@@ -4,9 +4,14 @@ if (isset($_GET['id'])){
     $_SESSION['currId'] = $currId;
     //echo"CURRENT MODULE ID: $currId";
 
+    $db->beginTransaction();
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $select = "SELECT modName, modInfo FROM modules WHERE modId = $currId";
-    $results = $db->query($select);
+    $select = "SELECT modName, modInfo FROM modules WHERE modId = :id";
+    $stmt = $db->prepare($select);
+    $stmt->bindValue(':id', $currId);
+    $stmt->execute();
+    $results = $stmt->fetchAll();
+    $db->commit();
     foreach($results as $r)
     {
         $modName = "{$r['modName']}";

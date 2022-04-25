@@ -6,23 +6,31 @@
         <p>Password: </p><input type=password name="loginPw" maxlength="50"required>
         <input type=submit value="GO!">
     </form>
-    <a href="newUser.php">Create a new user</a> <a href="forgetPassword.php">Forgot password?</a> <a href="createProf.php">Create new professor</a><a href="resendVerify.php">Resend email verification</a>
+    <a href="newUser.php">Create a new user</a> <a href="forgetPassword.php">Forgot password?</a> <a href="createProf.php">Create new professor</a> <a href="resendVerify.php">Resend email verification</a>
 </html>
 <?php
 
     if(isset($_POST['loginEm'])){
         $attemptEm = $_POST['loginEm'];
         $attemptPw = $_POST['loginPw'];
-
-        $statement = "SELECT * from students where verifyBit = 1 AND email = '$attemptEm';";
-        $results = $db->query($statement);
-        $count = $results->rowCount();
-        echo $count;
-
-        if($results->rowCount() == 0){
-            $statement = "SELECT * from profs where email = '$attemptEm';";
-            $results = $db->query($statement);
-            if($results->rowCount() == 0){
+        $verifyBit = 1;
+        $db->beginTransaction();
+        $statement = "SELECT * from students where verifyBit = :vBit AND email = :email";
+        $stmt = $db->prepare($statement);
+        $stmt->bindValue(':vBit', $verifyBit);
+        $stmt->bindValue(':email', $attemptEm);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        $db->commit();
+        if(count($results) == 0){
+            $db->beginTransaction();
+            $statement = "SELECT * from profs where email = :email";
+            $stmt = $db->prepare($statement);
+            $stmt->bindValue(':email', $attemptEm);
+            $stmt->execute();
+            $results = $stmt->fetchAll();
+            $db->commit();
+            if(count($results) == 0){
                 echo "Invalid login, please try again";
             }else{
                 foreach($results as $row){
@@ -34,11 +42,12 @@
                         $_SESSION['lName'] = "{$row['lName']}";
                         $_SESSION['profId'] = "{$row['profId']}";
                         $_SESSION['badPageForIndex'] = 1;
+                        $_SESSION['loggedIn'] = true;
                         header('Location: selectClass.php');
                     }
                 }
             }
-        }if($results->rowCount() > 0){
+        }if(count($results) > 0){
             echo "Here!";
             foreach($results as $row){
                 $realPass = "{$row['hashWord']}";
