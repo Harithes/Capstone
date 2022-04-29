@@ -40,9 +40,14 @@ if(isset($_POST['gradeStudent'])){
         {
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $db->beginTransaction();
-            $query = "UPDATE modSubs SET grade=$grade, gradeComment='$comment', profChanged=1 WHERE submissionId=$gradeId;";
-            $statment = $db->prepare($query);
-            $statment->execute();
+            $profChanged = 1;
+            $query = "UPDATE modSubs SET grade=:grade, gradeComment=:comment, profChanged=:changed WHERE submissionId=:gradeId;";
+            $stmt = $db->prepare($query);
+            $stmt->bindValue(':grade', $grade);
+            $stmt->bindValue(':comment', $comment);
+            $stmt->bindValue(':changed', $profChanged, PDO::PARAM_INT);
+            $stmt->bindValue(':gradeId', $gradeId);
+            $stmt->execute();
             $db->commit();
             header('Location: submissions.php');
         }catch(PDOException $e)
