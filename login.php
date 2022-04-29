@@ -7,7 +7,7 @@
         <input type=submit value="GO!">
     </form>
     <style>
-        div{padding-top: 400px}
+        div{padding-top: 390px}
     </style> 
     <div><a href="newUser.php">Create a new user</a> <a href="forgetPassword.php">Forgot password?</a> <a href="createProf.php">Create new professor</a> <a href="resendVerify.php">Resend email verification</a></div>
 </html>
