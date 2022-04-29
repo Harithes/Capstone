@@ -4,10 +4,9 @@
 <?php
     session_start();
     $db = 'capstonestudents';
-    $host = 'localhost';
-    $dsn = "mysql:host=localhost;dbname=capstonestudents";
-    $un = "student";
-    $pw = "testPW";
+    $dsn = "mysql:host=bizsimdb.crwthttqqus8.us-east-1.rds.amazonaws.com;dbname=capstonestudents";
+    $un = "admin";
+    $pw = "testPWtest";
     try
     {
         $db = new PDO($dsn, $un, $pw);
