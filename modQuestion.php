@@ -94,18 +94,19 @@ if(isset($_POST['submitAnswer'])){
         $db->beginTransaction();
 
         $statement = "INSERT INTO modSubs (modId, modName, classId, subInfo, fName, lName, grade, gradeComment, profChanged) 
-        VALUES ($currId,'$modName', '$classId', '$answer', '$fName', '$lName', 0, '', 0)";
+        VALUES (:id, :modName, :classId, :answer, :fName, :lName, :grade, :comment, :profChanged)";
         $stmt = $db->prepare($statement);
-        $stmt->bindValue('id', $currId);
-        $stmt->bindValue(':modName', $modname);
-        $stmt->bindValue(':classId', $classid);
+        $stmt->bindValue(':id', $currId, PDO::PARAM_INT);
+        $stmt->bindValue(':modName', $modName);
+        $stmt->bindValue(':classId', $classId);
         $stmt->bindValue(':answer', $answer);
-        $stmt->bindValue(':fName', $fname);
+        $stmt->bindValue(':fName', $fName);
         $stmt->bindValue(':lName', $lName);
-        $stmt->bindValue(':grade', $grade);
+        $stmt->bindValue(':grade', $grade, PDO::PARAM_INT);
         $stmt->bindValue(':comment', $comment);
-        $stmt->bindValue(':profChanged', $profChanged);
-        $stmt->execute();
+        $stmt->bindValue(':profChanged', $profChanged, PDO::PARAM_INT);
+        $stmt->debugDumpParams();
+        //$stmt->execute();
         $db->commit();
         header('Location: submissions.php');
     }catch(PDOException $e)
