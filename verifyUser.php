@@ -4,8 +4,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
-require 'C:/xampp/COMPOSER/vendor/autoload.php';
-
+#require 'C:/xampp/COMPOSER/vendor/autoload.php';
+require '~/vendor/autoload.php';
 #Create user in db
     if(isset($_POST['hidden'])){
         $newEmail = $_POST['email'];
