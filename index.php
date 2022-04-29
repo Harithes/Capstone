@@ -4,8 +4,7 @@
 <?php
     session_start();
     $db = 'capstonestudents';
-    $host = 'localhost';
-    $dsn = "mysql:host=localhost;dbname=capstonestudents";
+    $dsn = "mysql:host=bizsimdb.crwthttqqus8.us-east-1.rds.amazonaws.com;dbname=capstonestudents";
     $un = "student";
     $pw = "testPW";
     try
