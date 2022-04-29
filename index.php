@@ -5,8 +5,8 @@
     session_start();
     $db = 'capstonestudents';
     $dsn = "mysql:host=bizsimdb.crwthttqqus8.us-east-1.rds.amazonaws.com;dbname=capstonestudents";
-    $un = "student";
-    $pw = "testPW";
+    $un = "admin";
+    $pw = "testPWtest";
     try
     {
         $db = new PDO($dsn, $un, $pw);
