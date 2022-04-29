@@ -1,5 +1,6 @@
 <html>
-    <body>
+<body>
+    <link rel="stylesheet" href="style.css">
 <?php
     session_start();
     $db = 'capstonestudents';
