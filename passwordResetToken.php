@@ -97,7 +97,7 @@ if(isset($_POST['passwordResetToken'])&& $_POST['email']){
             $mail->Host = "smtp.gmail.com";
             $mail->SMTPAuth = true;  
             $mail->Username = "WesternBusinessSim@gmail.com";
-            $mail->Password = "BSimWestern2022";
+            $mail->Password = "@U;Q$S3g(LF^GzzY";
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
             
             //Setting SMTP port for server
